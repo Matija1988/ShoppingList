@@ -1,4 +1,5 @@
-﻿using App.DTO;
+﻿using App.Abstractions.Messaging;
+using App.DTO;
 
 namespace App.Services.Users;
 
