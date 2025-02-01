@@ -9,6 +9,8 @@ builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configu
 
 builder.Services.AddSwaggerGenWithAuth();
 
+builder.Services.AddApplication();
+
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
