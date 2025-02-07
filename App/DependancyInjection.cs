@@ -1,6 +1,5 @@
 ﻿using App.Abstractions.Behaviours;
 using Microsoft.Extensions.DependencyInjection;
-using FluentValidation;
 
 namespace App;
 

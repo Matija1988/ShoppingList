@@ -13,6 +13,14 @@ public static class UserErrors
         "Users.NotFoundByEmail",
         "The user with the specified email was not found!");
 
+    public static readonly Error NotFoundByEmailOrUsername = Error.NotFound(
+      "Users.NotFoundByEmailOrUsername",
+      "The user with the specified email and/or username was not found!");
+
+    public static readonly Error InvalidPasword = Error.NotFound(
+  "Users.InvalidPassword",
+  "Check your input and try again!");
+
     public static readonly Error EmailNotUnique = Error.Conflict(
         "Users.EmailNotUnique",
         "The provided email is not unique");

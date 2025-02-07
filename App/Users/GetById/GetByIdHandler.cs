@@ -2,18 +2,15 @@
 using App.Abstractions.Data;
 using App.Abstractions.Messaging;
 using App.DTO;
-using Domain.Users;
-using Microsoft.EntityFrameworkCore;
-using SharedCommon;
 
-namespace App.Services.Users;
+namespace App.Users.GetById;
 
 internal sealed class GetByIdHandler(IApplicationDbContext context, IUserContext userContext)
     : IQueryHandler<GetUserByIdQuery, UserReadResponse>
 {
     public async Task<Result<UserReadResponse>> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
     {
-        if(query.UserId != userContext.UserId)
+        if (query.UserId != userContext.UserId)
         {
             return Result.Failure<UserReadResponse>(UserErrors.Unauthorized());
         }

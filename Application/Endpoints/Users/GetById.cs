@@ -1,9 +1,4 @@
-﻿using App.DTO;
-using App.Services.Users;
-using MediatR;
-using SharedCommon;
-using Web.Api.Extensions;
-using Web.Api.Infrastructure;
+﻿using App.Users.GetById;
 
 namespace Web.Api.Endpoints.Users;
 internal sealed class GetById : IEndpoint

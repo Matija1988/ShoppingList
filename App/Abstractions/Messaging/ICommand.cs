@@ -1,7 +1,4 @@
-﻿using MediatR;
-using SharedCommon;
-
-namespace App.Abstractions.Messaging;
+﻿namespace App.Abstractions.Messaging;
 
 public interface ICommand : IRequest<Result>, IBaseCommand;
 
