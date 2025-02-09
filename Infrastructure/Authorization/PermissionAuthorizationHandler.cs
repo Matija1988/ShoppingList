@@ -11,11 +11,9 @@ internal sealed class PermissionAuthorizationHandler(IServiceProvider serviceSco
     {
 
         //TODO: Reject unauthenticaed users here
-        if (context.User is { Identity.IsAuthenticated: true })
+        if(context.User?.Identity?.IsAuthenticated != true)
         {
-            //TODO: Remove this call when you implement the PermissionProvider.GetForUserIdAsync
-            context.Succeed(requirement);
-
+            context.Fail();
             return;
         }
 

@@ -1,34 +1,31 @@
 ﻿using App.Abstractions.Authentication;
 using App.Abstractions.Data;
 using App.Abstractions.Messaging;
-using App.DTO;
 
 namespace App.Users.GetById;
 
 internal sealed class GetByIdHandler(IApplicationDbContext context, IUserContext userContext)
-    : IQueryHandler<GetUserByIdQuery, UserReadResponse>
+    : IQueryHandler<GetUserByIdQuery, UserResponse>
 {
-    public async Task<Result<UserReadResponse>> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
+    public async Task<Result<UserResponse>> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
     {
         if (query.UserId != userContext.UserId)
         {
-            return Result.Failure<UserReadResponse>(UserErrors.Unauthorized());
+            return Result.Failure<UserResponse>(UserErrors.Unauthorized());
         }
 
-        UserReadResponse? user = await context.Users
+        UserResponse? user = await context.Users
             .Where(u => u.Id == query.UserId)
-            .Select(u => new UserReadResponse
+            .Select(u => new UserResponse
             {
                 Id = u.Id,
                 Username = u.Username,
                 Email = u.Email,
-                DateCreated = u.DateCreated,
-                DateUpdated = u.DateUpdated,
-                IsActive = u.IsActive,
-                Password = u.Password,
             })
             .SingleOrDefaultAsync(cancellationToken);
 
-        return user;
+        return user is not null
+    ? Result.Success(user)
+    : Result.Failure<UserResponse>(UserErrors.NotFound(query.UserId));
     }
 }

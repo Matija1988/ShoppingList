@@ -9,7 +9,7 @@ internal sealed class GetById : IEndpoint
         {
             var query = new GetUserByIdQuery(userId);
 
-            Result<UserReadResponse> result = await sender.Send(query, cancellationToken);
+            Result<UserResponse> result = await sender.Send(query, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
