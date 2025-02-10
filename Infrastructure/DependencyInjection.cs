@@ -85,7 +85,9 @@ public static class DependencyInjection
 
     private static IServiceCollection AddAuthorizationInternal(this IServiceCollection services)
     {
-        services.AddAuthorization();
+        services.AddAuthorization(options =>
+        {
+        });
 
         services.AddScoped<PermissionProvider>();
         services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();

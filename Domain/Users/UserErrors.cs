@@ -9,6 +9,8 @@ public static class UserErrors
         "Users.Unauthorized",
         "You are not authorized to perform this action.");
 
+    public static Error NoUsersInDb => Error.NotFound("Users.NotFound", "No users found in Database!");
+
     public static readonly Error NotFoundByEmail = Error.NotFound(
         "Users.NotFoundByEmail",
         "The user with the specified email was not found!");

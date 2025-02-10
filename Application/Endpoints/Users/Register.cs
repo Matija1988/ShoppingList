@@ -11,9 +11,9 @@ internal sealed class Register : IEndpoint
         app.MapPost("users/register", async (Request request, ISender sender, CancellationToken cancellationToken) =>
         {
             var command = new RegisterUserCommand(
+                request.Email,
                 request.Username,
-                request.Password,
-                request.Email);
+                request.Password);
 
             Result<Guid> result = await sender.Send(command, cancellationToken);
 

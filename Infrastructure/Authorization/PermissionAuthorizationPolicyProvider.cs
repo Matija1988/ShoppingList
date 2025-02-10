@@ -20,12 +20,13 @@ internal sealed class PermissionAuthorizationPolicyProvider : DefaultAuthorizati
             return policy;
         }
 
-        AuthorizationPolicy permisionPolicy = new AuthorizationPolicyBuilder()
-            .AddRequirements(new PermissionRequirement(policyName))
-            .Build();
+        var permissionPolicy = new AuthorizationPolicyBuilder()
+                               .RequireAuthenticatedUser()
+                               .AddRequirements(new PermissionRequirement(policyName))
+                               .Build();
 
-        _authOptions.AddPolicy(policyName, permisionPolicy);
+        _authOptions.AddPolicy(policyName, permissionPolicy);
 
-        return policy;
+        return permissionPolicy;
     }
 }

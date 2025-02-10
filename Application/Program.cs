@@ -1,6 +1,8 @@
 using App;
 using HealthChecks.UI.Client;
 using Infrastructure;
+using Infrastructure.Database;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 using System.Reflection;
@@ -12,17 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 builder.Configuration.AddEnvironmentVariables();
 
-// Configure Serilog with correct settings
+ builder.Host.UseSerilog();
 
-    Log.Logger = new LoggerConfiguration()
-        .ReadFrom.Configuration(builder.Configuration)
-        .CreateLogger();
-
-
-builder.Host.UseSerilog();
-
-
-//builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration));
+builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddSwaggerGenWithAuth();
 
@@ -35,6 +29,12 @@ builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 
 WebApplication app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.EnsureCreated(); // Ensures DB is initialized before first request
+}
+
 app.MapEndpoints();
 
 if (app.Environment.IsDevelopment())
@@ -42,15 +42,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerWithUi();
 }
 
-
 app.MapHealthChecks("health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
-app.UseRequestContextLogging();
 
 app.UseSerilogRequestLogging();
+app.UseRequestContextLogging();
 
 app.UseExceptionHandler();
 

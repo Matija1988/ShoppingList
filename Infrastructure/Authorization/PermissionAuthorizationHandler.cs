@@ -9,8 +9,6 @@ internal sealed class PermissionAuthorizationHandler(IServiceProvider serviceSco
 {
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
     {
-
-        //TODO: Reject unauthenticaed users here
         if(context.User?.Identity?.IsAuthenticated != true)
         {
             context.Fail();
