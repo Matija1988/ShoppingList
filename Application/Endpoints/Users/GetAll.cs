@@ -1,4 +1,5 @@
 ﻿using App.Users.GetAll;
+using App.Users.GetById;
 
 namespace Web.Api.Endpoints.Users;
 
@@ -10,7 +11,7 @@ internal sealed class GetAll : IEndpoint
         {
             var query = new GetAllUsersQuery();
 
-            Result<GetAllUsersResponse> result = await sender.Send(query, cancelationToken);
+            Result<List<UserResponse>> result = await sender.Send(query, cancelationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })

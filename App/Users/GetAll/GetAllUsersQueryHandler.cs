@@ -1,17 +1,15 @@
-﻿using App.Abstractions.Authentication;
-using App.Abstractions.Data;
+﻿using App.Abstractions.Data;
 using App.Abstractions.Messaging;
 using App.Users.GetById;
 
 namespace App.Users.GetAll;
 
 internal sealed class GetAllUsersQueryHandler(IApplicationDbContext context)
-    : IQueryHandler<GetAllUsersQuery, GetAllUsersResponse>
+    : IQueryHandler<GetAllUsersQuery, List<UserResponse>>
 {
-    public async Task<Result<GetAllUsersResponse>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<UserResponse>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
-        GetAllUsersResponse response = new GetAllUsersResponse();
-          response.Users =  await context.Users.Select(
+         var response =  await context.Users.Select(
             u => new UserResponse
             {
                 Id = u.Id,
@@ -22,7 +20,7 @@ internal sealed class GetAllUsersQueryHandler(IApplicationDbContext context)
 
         if(response is null)
         {
-            return Result.Failure<GetAllUsersResponse>(UserErrors.NoUsersInDb);
+            return Result.Failure<List<UserResponse>>(UserErrors.NoUsersInDb);
         }
 
         return response;

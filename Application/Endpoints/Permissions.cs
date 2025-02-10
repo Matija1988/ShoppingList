@@ -1,4 +1,4 @@
-﻿namespace Web.Api.Endpoints.Users;
+﻿namespace Web.Api.Endpoints;
 internal static class Permissions
 {
     internal const string UserAccess = "users:access";

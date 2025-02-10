@@ -1,5 +1,6 @@
 ﻿using App.Abstractions.Messaging;
+using App.Users.GetById;
 
 namespace App.Users.GetAll;
 
-public sealed record GetAllUsersQuery() : IQuery<GetAllUsersResponse>;
+public sealed record GetAllUsersQuery() : IQuery<List<UserResponse>>;

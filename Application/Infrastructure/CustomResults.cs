@@ -1,6 +1,4 @@
-﻿using SharedCommon;
-
-namespace Web.Api.Infrastructure;
+﻿namespace Web.Api.Infrastructure;
 public static class CustomResults
 {
     public static IResult Problem(Result result)
