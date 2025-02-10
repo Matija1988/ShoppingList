@@ -1,6 +1,4 @@
 ﻿using App.Abstractions.Authentication;
-using App.Abstractions.Data;
-using App.Abstractions.Messaging;
 
 namespace App.Users.Login;
 
@@ -13,7 +11,7 @@ internal sealed class LoginUserCommandHandler(
     {
         User? user = await context.Users
             .AsNoTracking()
-            .SingleOrDefaultAsync(u => u.Email == command.Email || u.Username == command.Username, cancellationToken);
+            .SingleOrDefaultAsync(u => u.Email == command.Email || u.Username == command.Username && u.IsActive == true, cancellationToken);
 
         if (user is null) 
         {

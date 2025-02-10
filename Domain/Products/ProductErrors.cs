@@ -6,6 +6,10 @@ public static class ProductErrors
         "Products.NotFound",
         $"The products with the Id = '{productId}' was not found!");
 
+    public static Error ProductsInDb() => Error.Conflict(
+        "Products.PostIssue",
+        "Products already in database!");
+
     public static readonly Error NotFoundByName = Error.NotFound(
         "Products.NotFoundByName",
         "The product with the specified name was not found!");
@@ -13,4 +17,6 @@ public static class ProductErrors
     public static readonly Error ProductsNotFound = Error.NotFound(
         "Products.NotFound",
         "No products found in database!");
+
+
 }
