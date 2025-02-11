@@ -1,10 +1,8 @@
 ﻿using App.Abstractions.Authentication;
-using App.Abstractions.Data;
-using App.Abstractions.Messaging;
 
 namespace App.Users.Update;
 
-internal class UpdateUserCommandHandler(IApplicationDbContext context, IPasswordHasher passwordHasher)
+internal sealed class UpdateUserCommandHandler(IApplicationDbContext context, IPasswordHasher passwordHasher)
     : ICommandHandler<UpdateUserCommand, Guid>
 {
     public async Task<Result<Guid>> Handle(UpdateUserCommand command, CancellationToken cancellationToken)

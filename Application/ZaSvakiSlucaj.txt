@@ -2,7 +2,7 @@
 For whoever will work on this app in the future.
 
 Ova applikacija koristi MediatR za implementaciju Mediator patterna u Request-Response pipeline-u. Mozda jednog dana ovo pukne i pojavi se potreba rucno implementirati ovu funkcionalnost.
-This app uses MediatR in order to implement Mediator pattern in Request-Response pipeline. Maybe one day this goes to hell and manual implementatio is needed. 
+This app uses MediatR in order to implement Mediator pattern in Request-Response pipeline. Maybe one day this goes to hell and manual implementation is needed. 
 
 CQRS Without MediatR
 CQRS can be implemented just as easily without MediatR. Here's a simple example of what it might look like.

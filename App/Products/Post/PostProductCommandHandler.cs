@@ -5,7 +5,7 @@
 /// </summary>
 /// <param name="context"></param>
 
-internal class PostProductCommandHandler(IApplicationDbContext context)
+internal sealed class PostProductCommandHandler(IApplicationDbContext context)
     : ICommandHandler<PostProductCommand, int>
 {
     /// <summary>
