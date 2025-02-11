@@ -7,7 +7,7 @@ namespace App.Products.Post;
 /// </summary>
 /// <param name="context"></param>
 
-internal sealed class PostProductCommandHandler(IApplicationDbContext context)
+internal sealed class PostProductCommandHandler(IApplicationDbContext context, IDateTimeProvider dateTimeProvider)
     : ICommandHandler<PostProductCommand, int>
 {
     /// <summary>
@@ -48,8 +48,8 @@ internal sealed class PostProductCommandHandler(IApplicationDbContext context)
                 {
                     Name = item.Name,
                     UnitPrice = item.UnitPrice,
-                    DateUpdated = DateTime.Now,
-                    DateCreated = DateTime.Now,
+                    DateUpdated = dateTimeProvider.UtcNow,
+                    DateCreated = dateTimeProvider.UtcNow,
                     IsActive = true,
                 });          
             }

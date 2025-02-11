@@ -31,5 +31,5 @@ public class ShopListProduct
     public int ProductQuantity { get; set; } = 1;
 
     [Column("ulp_totalValue")]
-    public decimal TotalValue { get; set; }
+    public decimal? TotalValue { get; set; }
 }

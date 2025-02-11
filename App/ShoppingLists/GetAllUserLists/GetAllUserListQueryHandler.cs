@@ -22,7 +22,7 @@ internal sealed class GetAllUserListQueryHandler(IApplicationDbContext context, 
             {
                 ShopListId = x.Id,
                 ShopListName = x.Name,
-                ShopListTotalValue = x.TotalValue,
+                ShopListTotalValue = x.TotalValue ?? 0.0m,
                 DateUpdated = x.DateUpdated,
                 Products = x.ShopListProducts.Select(p => new ShopListProductResponse
                 {
@@ -34,7 +34,7 @@ internal sealed class GetAllUserListQueryHandler(IApplicationDbContext context, 
                         Name = p.Product.Name,
                     },
                     ProductQuantity = p.ProductQuantity,
-                    TotalValue = p.TotalValue,
+                    TotalValue = p.TotalValue ?? 0.0m,
                 }).ToList()
             })
             .AsNoTracking()

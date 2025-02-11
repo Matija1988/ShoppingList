@@ -10,9 +10,9 @@ public static class ShopListErrors
         "ShopList.NotFound",
         $"The user with the Id = '{UserId}' has no lists to load!");
 
-    public static Error ListInDb() => Error.Conflict(
+    public static Error PostError() => Error.Conflict(
         "ShopList.PostIssue",
-        "List already in database!");
+        "Unable to insert shop list into database!");
 
     public static Error UpdateError() => Error.Failure(
         "ShopList.PutIssue",

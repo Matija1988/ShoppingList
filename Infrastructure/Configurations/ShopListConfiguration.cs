@@ -22,7 +22,7 @@ internal sealed class ShopListConfiguration : IEntityTypeConfiguration<ShopList>
 
         builder.Property(x => x.TotalValue)
                .HasColumnType("decimal(18,2)")
-               .HasDefaultValue(0);
+               .HasDefaultValue(0.0m);
 
         builder.HasOne(x => x.User)
                .WithMany()

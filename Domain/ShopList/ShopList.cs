@@ -1,5 +1,4 @@
-﻿using Domain.Products;
-using Domain.ShopListProducts;
+﻿using Domain.ShopListProducts;
 using Domain.Users;
 
 namespace Domain.ShopList;
@@ -29,6 +28,6 @@ public class ShopList
     public User User { get; set; }
 
     [Column("lst_totalValue")]
-    public decimal TotalValue { get; set; }
+    public decimal? TotalValue { get; set; }
     public List<ShopListProduct> ShopListProducts {get; set;}
 }
