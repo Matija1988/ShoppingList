@@ -1,4 +1,6 @@
-﻿namespace App.Products.Post;
+﻿using MediatR;
+
+namespace App.Products.Post;
 
 /// <summary>
 /// Dodavanje liste proizvoda u bazu podataka.
@@ -14,14 +16,19 @@ internal sealed class PostProductCommandHandler(IApplicationDbContext context)
     /// se modificira. 
     /// Ako gore navedeni uvijeti nisu ispunjeni proizvodi se dodaju u novu kolekciju koja se dodaje u bazu podataka. 
     /// </summary>
-    /// <param name="command"></param>
+    /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<Result<int>> Handle(PostProductCommand command, CancellationToken cancellationToken)
+    public async Task<Result<int>> Handle(PostProductCommand request, CancellationToken cancellationToken)
     {
+        if (request.Products == null || request.Products.Count < 1)
+        {
+            return Result.Failure<int>(ProductErrors.BatchRequestEmpty());
+        }
+
         List<Product> products = new List<Product>();
 
-        foreach (var item in command.Products)
+        foreach (var item in request.Products)
         {
             if(await context.Products.AnyAsync(x => x.Name == item.Name && x.UnitPrice == item.UnitPrice, cancellationToken: cancellationToken))
             {

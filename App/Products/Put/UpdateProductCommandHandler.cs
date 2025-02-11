@@ -5,6 +5,11 @@ internal sealed class UpdateProductCommandHandler(IApplicationDbContext context)
 {
     public async Task<Result<int>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
+        if(request.Products == null || request.Products.Count < 1)
+        {
+            return Result.Failure<int>(ProductErrors.BatchRequestEmpty());
+        }
+
         foreach (var item in request.Products) 
         { 
             var product = await context.Products.FindAsync(item.Id);

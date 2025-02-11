@@ -14,6 +14,10 @@ public static class ProductErrors
         "Products.PutIssue",
         "Problem updating products!");
 
+    public static Error BatchRequestEmpty() => Error.Failure(
+        "Products.PutIssue",
+        "Batch request didn't contain any valid products!");
+
     public static readonly Error NotFoundByName = Error.NotFound(
         "Products.NotFoundByName",
         "The product with the specified name was not found!");

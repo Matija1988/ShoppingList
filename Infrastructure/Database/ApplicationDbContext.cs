@@ -1,5 +1,6 @@
 ﻿using App.Abstractions.Data;
 using Domain.Products;
+using Domain.ShopList;
 using Domain.Users;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,8 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<User> Users { get; set; }
 
     public DbSet<Product> Products { get; set; }
+
+    public DbSet<ShopList> ShopLists { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
