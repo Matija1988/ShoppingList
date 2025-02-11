@@ -3,6 +3,15 @@ using Serilog.Context;
 
 namespace App.Abstractions.Behaviours;
 
+/// <summary>
+/// Implementacija pipeline ponašanja za logiranje zahtjeva.
+/// Ova klasa bilježi informacije o obradi zahtjeva, uključujući uspješne i neuspješne rezultate.
+/// </summary>
+/// <typeparam name="TRequest"></typeparam>
+/// <typeparam name="TResponse"></typeparam>
+/// <param name="logger"></param>
+
+
 internal sealed class RequestLoggingPipelineBahavior<TRequest, TResponse>(
     ILogger<RequestLoggingPipelineBahavior<TRequest, TResponse>> logger)
     : IPipelineBehavior<TRequest, TResponse>

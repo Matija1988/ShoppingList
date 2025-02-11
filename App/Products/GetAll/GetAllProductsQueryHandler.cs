@@ -1,7 +1,4 @@
-﻿using App.Abstractions.Data;
-using App.Abstractions.Messaging;
-
-namespace App.Products.GetAll;
+﻿namespace App.Products.GetAll;
 
 internal sealed class GetAllProductsQueryHandler(IApplicationDbContext context)
     : IQueryHandler<GetAllProductsQuery, List<ProductResponse>>

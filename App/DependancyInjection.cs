@@ -2,7 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace App;
-
+/// <summary>
+/// DI modul za dodavanje i konfiguraciju ovisnosti u App layeru.
+/// MediatR - implementacija Mediator patterna za Request-Response arhitekturu
+/// </summary>
 public static class DependancyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)

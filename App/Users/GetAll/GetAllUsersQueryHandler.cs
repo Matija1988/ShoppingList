@@ -16,6 +16,7 @@ internal sealed class GetAllUsersQueryHandler(IApplicationDbContext context)
                 Username = u.Username,
                 Email = u.Email,
             })
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
 
         if(response is null)

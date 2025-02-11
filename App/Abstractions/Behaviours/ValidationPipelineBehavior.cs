@@ -1,10 +1,28 @@
 ﻿namespace App.Abstractions.Behaviours;
 
+/// <summary> 
+/// Implementacija pipeline ponašanja za logiranje i validaciju zahtjeva.
+/// Tip zahtjeva.
+/// Tip odgovora.
+/// </summary>
+/// <typeparam name="TRequest"></typeparam>
+/// <typeparam name="TResponse"></typeparam>
+/// <param name="validators"></param>
+
 internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(
     IEnumerable<IValidator<TRequest>> validators)
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : class
 {
+    /// <summary>
+    /// Provodi validaciju zahtjeva prije obrade.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="next"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="ValidationException"></exception>
+
     public async Task<TResponse> Handle(
         TRequest request, 
         RequestHandlerDelegate<TResponse> next, 

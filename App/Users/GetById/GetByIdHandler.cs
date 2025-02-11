@@ -1,7 +1,4 @@
-﻿using App.Abstractions.Data;
-using App.Abstractions.Messaging;
-
-namespace App.Users.GetById;
+﻿namespace App.Users.GetById;
 
 internal sealed class GetByIdHandler(IApplicationDbContext context)
     : IQueryHandler<GetUserByIdQuery, UserResponse>
@@ -16,6 +13,7 @@ internal sealed class GetByIdHandler(IApplicationDbContext context)
                 Username = u.Username,
                 Email = u.Email,
             })
+            .AsNoTracking()
             .SingleOrDefaultAsync(cancellationToken);
 
         return user is not null

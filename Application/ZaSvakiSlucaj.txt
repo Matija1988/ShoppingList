@@ -1,0 +1,56 @@
+﻿Za onog tko bude radio na ovoj aplikaciji u buducnosti.
+For whoever will work on this app in the future.
+
+Ova applikacija koristi MediatR za implementaciju Mediator patterna u Request-Response pipeline-u. Mozda jednog dana ovo pukne i pojavi se potreba rucno implementirati ovu funkcionalnost.
+This app uses MediatR in order to implement Mediator pattern in Request-Response pipeline. Maybe one day this goes to hell and manual implementatio is needed. 
+
+CQRS Without MediatR
+CQRS can be implemented just as easily without MediatR. Here's a simple example of what it might look like.
+
+You can define commands and queries as simple interfaces:
+
+public interface ICommandHandler<in TCommand, TResult>
+{
+    Task<TResult> Handle(TCommand command, CancellationToken cancellationToken = default);
+}
+
+// Same thing for IQueryHandler
+Then, you can implement your handlers and register them with dependency injection:
+
+public record CreateOrderCommand(string CustomerId, List<OrderItem> Items)
+    : ICommand<CreateOrderResult>;
+
+public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand, CreateOrderResult>
+{
+    public async Task<CreateOrderResult> Handle(
+        CreateOrderCommand command,
+        CancellationToken cancellationToken = default)
+    {
+        // implementation
+    }
+}
+
+// DI registration...
+builder.Services
+    .AddScoped<ICommandHandler<CreateOrderCommand, CreateOrderResult>, CreateOrderCommandHandler>();
+Finally, you can use the handler in your controller:
+
+[ApiController]
+[Route("orders")]
+public class OrdersController : ControllerBase
+{
+    [HttpPost]
+    public async Task<ActionResult<CreateOrderResult>> CreateOrder(
+        CreateOrderCommand command,
+        ICommandHandler<CreateOrderCommand, CreateOrderResult> handler)
+    {
+        var result = await handler.Handle(command);
+
+        return Ok(result);
+    }
+}
+What's the difference between this and the MediatR approach?
+
+This approach provides the same separation of concerns but without the indirection. It's direct, explicit, and often sufficient for many applications.
+
+However, it lacks some of the conveniences that MediatR offers, such as pipeline behaviors and automatically registering handlers. You also need to inject the specific handlers into your controllers, which can be cumbersome for larger applications.
