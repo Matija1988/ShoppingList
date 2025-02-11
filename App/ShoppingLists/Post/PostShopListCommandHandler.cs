@@ -13,7 +13,6 @@ namespace App.ShoppingLists.Post
                 return Result.Failure<int>(ShopListErrors.PostError());
             }
 
-            decimal totalValue = 0m;
             Product newProduct = new Product();
 
             foreach(var product in request.ShopList.Products)
