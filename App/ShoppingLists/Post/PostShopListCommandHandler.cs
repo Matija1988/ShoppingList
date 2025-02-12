@@ -12,20 +12,6 @@ namespace App.ShoppingLists.Post
             {
                 return Result.Failure<int>(ShopListErrors.PostError());
             }
-
-            Product newProduct = new Product();
-
-            foreach(var product in request.ShopList.Products)
-            {
-                newProduct.Name = product.Product.Name;
-                newProduct.UnitPrice = product.Product.UnitPrice;
-                newProduct.DateCreated = dateTimeProvider.UtcNow;
-                newProduct.DateUpdated = dateTimeProvider.UtcNow;
-                newProduct.IsActive = true;
-
-                context.Products.Add(newProduct);
-                await context.SaveChangesAsync(cancellationToken);
-            }
             
             var shopList = new ShopList
             {
@@ -37,8 +23,21 @@ namespace App.ShoppingLists.Post
                 ShopListProducts = new List<ShopListProduct>()
             };
 
+            context.ShopLists.Add(shopList);
+            await context.SaveChangesAsync(cancellationToken);
+
             foreach (var product in request.ShopList.Products)
             {
+                Product newProduct = new Product();
+                newProduct.Name = product.Product.Name;
+                newProduct.UnitPrice = product.Product.UnitPrice;
+                newProduct.DateCreated = dateTimeProvider.UtcNow;
+                newProduct.DateUpdated = dateTimeProvider.UtcNow;
+                newProduct.IsActive = true;
+
+                context.Products.Add(newProduct);
+                await context.SaveChangesAsync(cancellationToken);
+
                 var shopListProduct = new ShopListProduct
                 {
                     ProductId = newProduct.Id,
@@ -48,8 +47,6 @@ namespace App.ShoppingLists.Post
 
                 shopList.ShopListProducts.Add(shopListProduct);
             }
-
-            context.ShopLists.Add(shopList);
 
             await context.SaveChangesAsync(cancellationToken);
 

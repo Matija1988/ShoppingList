@@ -17,5 +17,4 @@ public static class ShopListErrors
     public static Error UpdateError() => Error.Failure(
         "ShopList.PutIssue",
         "Problem updating shopping list!");
-
 }
