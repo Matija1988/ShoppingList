@@ -4,15 +4,15 @@ namespace Web.Api.Endpoints.ShopLists;
 
 internal sealed class Post : IEndpoint
 {
-    public sealed record Request(PostShopList shopList);
+    public sealed record Request(List<PostShopList> shopList);
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost("shopList", async (Request request, ISender sender, CancellationToken cancellationToken) =>
+        app.MapPost("shopLists", async (Request request, ISender sender, CancellationToken cancellationToken) =>
         {
             var command = new PostShopListCommand(request.shopList);
 
-            Result<int> result = await sender.Send(command, cancellationToken);
+            Result<List<int>> result = await sender.Send(command, cancellationToken);
 
             return result.Match(Results.Ok, CustomResults.Problem);
         })
