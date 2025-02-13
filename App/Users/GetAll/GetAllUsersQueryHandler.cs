@@ -1,6 +1,4 @@
-﻿using App.Abstractions.Data;
-using App.Abstractions.Messaging;
-using App.Users.GetById;
+﻿using App.Users.GetById;
 
 namespace App.Users.GetAll;
 
