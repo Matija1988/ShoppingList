@@ -3,7 +3,7 @@ using App.ShoppingLists.RemoveProductsFromLists;
 
 namespace Web.Api.Endpoints.ShopLists;
 
-public class RemoveProducts : IEndpoint
+internal sealed class RemoveProducts : IEndpoint
 {
     public sealed record Request(List<RemoveProductsFromListDTO> request);
 

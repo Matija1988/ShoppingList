@@ -2,7 +2,7 @@
 
 namespace Web.Api.Endpoints.ShopLists;
 
-public class AddProducts : IEndpoint
+internal sealed class AddProducts : IEndpoint
 {
     public sealed record Request(AddProductsToList productsToList);
 

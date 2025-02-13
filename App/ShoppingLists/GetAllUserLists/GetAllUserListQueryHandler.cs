@@ -23,6 +23,7 @@ internal sealed class GetAllUserListQueryHandler(IApplicationDbContext context, 
                 ShopListId = x.Id,
                 ShopListName = x.Name,
                 ShopListTotalValue = x.TotalValue ?? 0.0m,
+                IsActive = x.IsActive,
                 DateUpdated = x.DateUpdated,
                 Products = x.ShopListProducts.Select(p => new ShopListProductResponse
                 {

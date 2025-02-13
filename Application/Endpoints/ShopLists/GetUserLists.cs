@@ -1,9 +1,8 @@
 ﻿using App.ShoppingLists.GetAllUserLists;
-using Domain.ShopList;
 
 namespace Web.Api.Endpoints.ShopLists;
 
-public class GetUserLists : IEndpoint
+internal sealed class GetUserLists : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
