@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { Button } from "react-bootstrap";
 
 export default function CustomButton({
   label,
@@ -9,14 +8,14 @@ export default function CustomButton({
   className,
 }) {
   return (
-    <Button
+    <button
       onClick={onClick}
       variant={variant}
       type={type}
       className={className}
     >
       {label}
-    </Button>
+    </button>
   );
 }
 

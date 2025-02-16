@@ -1,7 +1,7 @@
 import { Alert, Col, Container, Form, Row } from "react-bootstrap";
 import InputText from "../components/InputText";
 import CustomButton from "../components/CustomButton";
-import "../App.css";
+
 import useAuth from "../hooks/useAuth";
 import { Routes, useNavigate } from "react-router-dom";
 import { RouteNames } from "../constants/constants";
@@ -27,35 +27,37 @@ export default function LogIn() {
   }
 
   return (
-    <Container className="w-25">
-      <Form onSubmit={handleSubmit}>
+    <div className="login-container">
+      <Form className="login-form" onSubmit={handleSubmit}>
         {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
         <InputText
-          className="logIn-text"
+        groupClass="login-group"
+          className="login-input"
           atribute="username"
           required={true}
         ></InputText>
         <InputText
-          className="logIn-text"
+        groupClass="login-group"
+          className="login-input"
           atribute="password"
           required={true}
           type="password"
         ></InputText>
-        <Row className="row">
-          <CustomButton className="logIn-btn" label="Login"></CustomButton>
-        </Row>
+
+          <CustomButton
+            className="login-btn login-btn-primary"
+            label="Login"
+          ></CustomButton>
+
         <Row>
           <CustomButton
-            className="logIn-cancel"
-            label="Cancel"
-          ></CustomButton>
-          <CustomButton
+            className="login-link"
             variant="link"
             label="Not registered? Register as member"
             onClick={() => navigate(RouteNames.REGISTER)}
           ></CustomButton>
         </Row>
       </Form>
-    </Container>
+    </div>
   );
 }

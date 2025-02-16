@@ -8,9 +8,10 @@ export default function InputText({
   className,
   type,
   onChange,
+  groupClass,
 }) {
   return (
-    <Form.Group>
+    <Form.Group className={groupClass}>
       <Form.Label className="labelAtribute">{atribute}</Form.Label>
       <Form.Control
         name={atribute}
