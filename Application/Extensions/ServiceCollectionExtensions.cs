@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore.Storage.Json;
 using Microsoft.OpenApi.Models;
 
 namespace Web.Api.Extensions;
@@ -14,7 +13,7 @@ internal static class ServiceCollectionExtensions
 
             var securityScheme = new OpenApiSecurityScheme
             {
-                Name = "JWT Authentication",
+                Name = "Authorization",
                 Description = "Enter your JWT token in this field",
                 In = ParameterLocation.Header,
                 Scheme = JwtBearerDefaults.AuthenticationScheme,

@@ -20,6 +20,8 @@ builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configu
 
 builder.Services.AddSwaggerGenWithAuth();
 
+builder.Services.CorsSetup();
+
 builder.Services
     .AddApplication()
     .AddPresentation()
@@ -37,6 +39,8 @@ using (var scope = app.Services.CreateScope())
 
 app.MapEndpoints();
 
+app.ApplyCors();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerWithUi();
@@ -46,7 +50,6 @@ app.MapHealthChecks("health", new HealthCheckOptions
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
-
 
 app.UseSerilogRequestLogging();
 app.UseRequestContextLogging();
