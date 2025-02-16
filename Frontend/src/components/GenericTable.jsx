@@ -1,6 +1,7 @@
 import { Table } from "react-bootstrap";
 import CustomButton from "./CustomButton";
 import PropTypes from "prop-types";
+import { useState } from "react";
 
 export default function GenericTable({
   dataArray,
@@ -18,6 +19,11 @@ export default function GenericTable({
   if (typeof dataArray[0] !== "object" || dataArray[0] === null) {
     return <p>No data to load</p>;
   }
+
+    const [page, setPage] = useState(1);
+    const [condition, setCondtion] = useState('');
+    const [search, setSearch] = useState("");
+    const [totalActivities, setTotalActivities] = useState();
 
   const columns = Object.keys(dataArray[0]);
 

@@ -1,15 +1,20 @@
 import NavBar from "../../components/NavBar";
 import "../../App.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import productService from "../../services/productService";
 import useLoading from "../../hooks/useLoading";
 import useError from "../../hooks/useError";
 import DeleteModal from "../../components/DeleteModal";
 import ErrorModal from "../../components/ErrorModal";
 import GenericTable from "../../components/GenericTable";
+import { getAllProducts, saveProducts, deleteProduct } from "../../data/database"; 
+import { ProductContext } from "../../data/ProductContext";
+
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
+  //const [products, setProducts] = useState([]);
+
+  const {products} = useContext(ProductContext);
 
   const { hideLoading, showLoading } = useLoading();
   const { showError, showErrorModal, errors, hideError } = useError();
@@ -17,20 +22,29 @@ export default function Products() {
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  async function getProducts() {
-    showLoading();
-    const response = await productService.readAll("products");
-    if (!response.ok) {
-        hideLoading();
-      showError(response.data);
-    }
-    setProducts(response.data);
-    hideLoading();
-  }
+  // async function getProducts() {
+  //   showLoading();
 
-  useEffect(() => {
-    getProducts();
-  }, []);
+  //   const localProducts = await getAllProducts();
+  //   if (localProducts.length > 0) {
+  //     console.log("Loaded products from local DB", localProducts);
+  //     setProducts(localProducts);
+  //     hideLoading();
+  //   }
+
+  //   const response = await productService.readAll("products");
+  //   if (!response.ok) {
+  //       hideLoading();
+  //     showError(response.data);
+  //   }
+  //   setProducts(response.data);
+  //   await saveProducts(response.data);
+  //   hideLoading();
+  // }
+
+  // useEffect(() => {
+  //   getProducts();
+  // }, []);
 
   async function deleteProduct(product) {
 
@@ -41,7 +55,7 @@ export default function Products() {
       <NavBar></NavBar>
       <div>
         <h1 className="h1">PRODUCTS</h1>
-        <GenericTable dataArray={products}></GenericTable>
+        <GenericTable dataArray={products} cutRange={1}></GenericTable>
       </div>
       <ErrorModal
         show={showErrorModal}

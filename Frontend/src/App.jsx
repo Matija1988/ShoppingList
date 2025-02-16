@@ -5,13 +5,15 @@ import { RouteNames } from './constants/constants'
 import LogIn from './pages/Login'
 import LandingPage from './pages/LandingPage'
 import "bootstrap/dist/css/bootstrap.min.css";
-import Products from './pages/product/Product'
+import Products from './pages/product/Product';
+import LoadingSpinner from "./components/LoadingSpinner";
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+     <LoadingSpinner />
       <Routes>
         <Route path={RouteNames.HOME} element={<LogIn/>}></Route>
         <Route path={RouteNames.LANDINGPAGE} element={<LandingPage/>}></Route>
