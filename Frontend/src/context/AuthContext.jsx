@@ -27,23 +27,34 @@ export function AuthProvider({ children }) {
   }, [isLoggedIn]);
 
   async function login(userData) {
-    console.log("Sending request to login service", userData);
     const response = await authService.logInService(userData)
-    console.log(response);
+
     if (response.ok) {
-      const token = response.data.value;
-      console.log("Token received from server:", token);
+      const token = response.data;
+  
+    if (typeof token === "object" && token.value) {
+      token = token.value; 
+    }
+
+    if (!token || token.split('.').length !== 3) {
+      console.error("Invalid JWT structure detected:", token);
+      return;
+    }
+
       localStorage.setItem("Bearer", token);
       setAuthToken(token);
       setIsLoggedIn(true);
       await setUserOnLogin(token);
       const decodedToken = jwtDecode(token);
      // setRole(decodedToken.role);
-      navigate(RouteNames.HOME);
-    } else {
+      navigate(RouteNames.LANDINGPAGE);
+    } 
+    else 
+    {
       localStorage.setItem("Bearer", "");
       setAuthToken("");
       setIsLoggedIn(false);
+
       return "Invalid username or password";
     }
   }

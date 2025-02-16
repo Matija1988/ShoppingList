@@ -5,6 +5,7 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import { RouteNames } from './constants/constants'
 import LogIn from './pages/Login'
+import LandingPage from './pages/LandingPage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -13,6 +14,7 @@ function App() {
     <>
       <Routes>
         <Route path={RouteNames.HOME} element={<LogIn/>}></Route>
+        <Route path={RouteNames.LANDINGPAGE} element={<LandingPage/>}></Route>
 
       </Routes>
     </>

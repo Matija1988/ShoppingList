@@ -23,15 +23,14 @@ export const UserProvider = ({ children }) => {
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-        const currentTime = Date.now() / 1000; // Convert to seconds
+        const currentTime = Date.now() / 1000;
         if (decodedToken.exp < currentTime) {
           console.log("Token has expired");
-          // Handle token expiration (e.g., log out user)
         } else {
           const id = decodedToken.sub;
           const username = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
           const email = decodedToken.email;
-  
+
           setUserId(id);
           setUsername(username);
           setEmail(email);
@@ -44,11 +43,22 @@ export const UserProvider = ({ children }) => {
 
   const setUserOnLogin = async (input) => {
     const token = localStorage.getItem("Bearer");
-    const decodedToken = jwtDecode(token);
-    const username = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-    setEmail(decodedToken.email);
-    setUsername(username);
-    setUserId(decodedToken.sub);
+   
+    if (!token || token.split('.').length !== 3) {
+      console.error("setUserOnLogin: Invalid JWT token detected", token);
+      return;
+    }
+  
+    try {
+      const decodedToken = jwtDecode(token);
+    
+      const username = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+      setEmail(decodedToken.email);
+      setUsername(username);
+      setUserId(decodedToken.sub);
+    } catch (error) {
+      console.error("setUserOnLogin: Error decoding JWT token", error);
+    }
   };
 
   const resetUser = async () => {
