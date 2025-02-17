@@ -2,8 +2,9 @@ import Dexie from "dexie";
 
 const db = new Dexie("ShopListDb");
 
-db.version(1).stores({
+db.version(2).stores({
   products: "id, name, unitprice, dateupdated",
+  shopLists: "++shopListId, shopListName, dateUpdated, isActive, shopListTotalValue",
 });
 
 export async function getAllProducts() {
@@ -29,5 +30,25 @@ export async function saveProducts(products) {
 export async function deleteProduct(id) {
   await db.products.delete(id);
 }
+
+db.addShopList = async (shopList) => {
+  try {
+    return await db.shopLists.add(shopList);
+  } catch (error) {
+    console.error("Failed to add shop list:", error);
+  }
+};
+
+db.getAllShopLists = async () => {
+  return await db.shopLists.toArray();
+};
+
+db.deleteShopList = async (shopListId) => {
+  return await db.shopLists.delete(shopListId);
+};
+
+db.updateShopList = async (shopListId, updatedData) => {
+  return await db.shopLists.update(shopListId, updatedData);
+};
 
 export default db;

@@ -20,17 +20,7 @@ export default function Products() {
   const { products, setProducts, loadProductsFromDB } = useProductStore();
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      await loadProductsFromDB();
-      if (products.length === 0) {
-        const response = await productService.readAll("products");
-        if (response.ok) {
-          setProducts(response.data);
-        }
-      }
-    };
-
-    fetchProducts();
+    loadProductsFromDB();
   }, []);
 
   async function deleteProduct(product) {

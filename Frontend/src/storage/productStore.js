@@ -1,26 +1,29 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import db from "./database";
+import { getAllProducts, saveProducts } from "../storage/database";
 
-const useProductStore = create(
-  persist(
-    (set, get) => ({
-      products: [],
-      setProducts: async (newProducts) => {
-        set({ products: newProducts });
-        await db.products.bulkPut(newProducts); 
-      },
-      loadProductsFromDB: async () => {
-        const storedProducts = await db.products.toArray();
-        if (storedProducts.length > 0) {
-          set({ products: storedProducts });
-        }
-      },
-    }),
-    {
-      name: "product-storage",
+const useProductStore = create((set, get) => ({
+  products: [],
+  
+  loadProductsFromDB: async () => {
+    const products = await getAllProducts();
+    set({ products });
+  },
+
+  fetchProductsFromAPI: async () => {
+    const { products } = get();
+    if (products.length === 0) {
+      const response = await productService.readAll("products");
+      if (response.ok) {
+        set({ products: response.data });
+        await saveProducts(response.data);
+      }
     }
-  )
-);
+  },
+
+  setProducts: (newProducts) => {
+    set({ products: newProducts });
+    saveProducts(newProducts);
+  }
+}));
 
 export default useProductStore;

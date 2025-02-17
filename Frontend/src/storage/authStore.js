@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import authService from "../services/authService";
 import { jwtDecode } from "jwt-decode";
 import { RouteNames } from "../constants/constants";
+import useProductStore from "./productStore";
 
 const useAuthStore = create (
     persist(
@@ -42,6 +43,10 @@ const useAuthStore = create (
 
                         localStorage.setItem("Bearer", token);
                         get().startTokenTimer();
+
+                        const { loadProductsFromDB, fetchProductsFromAPI } = useProductStore.getState();
+                        await loadProductsFromDB();
+                        await fetchProductsFromAPI();
                     }
 
                 } catch (error) {
@@ -63,6 +68,7 @@ const useAuthStore = create (
                   tokenCheckInterval: null,
                 });
                 localStorage.removeItem("Bearer");
+                
             },
 
             startTokenTimer: () => {
