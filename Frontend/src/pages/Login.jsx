@@ -2,14 +2,16 @@ import { Alert, Col, Container, Form, Row } from "react-bootstrap";
 import InputText from "../components/InputText";
 import CustomButton from "../components/CustomButton";
 
-import useAuth from "../hooks/useAuth";
 import { Routes, useNavigate } from "react-router-dom";
 import { RouteNames } from "../constants/constants";
 import { useState } from "react";
+import useAuthStore from "../data/authStore";
 
 export default function LogIn() {
-  const { login } = useAuth();
+
   const navigate = useNavigate();
+
+  const {login, isAuthenticated} = useAuthStore();
 
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,6 +30,9 @@ export default function LogIn() {
 
   return (
     <div className="login-container">
+      {isAuthenticated ? ( 
+        navigate(RouteNames.LANDINGPAGE)
+      ) : (
       <Form className="login-form" onSubmit={handleSubmit}>
         {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
         <InputText
@@ -58,6 +63,7 @@ export default function LogIn() {
           ></CustomButton>
         </Row>
       </Form>
+      )}
     </div>
   );
 }

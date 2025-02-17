@@ -1,14 +1,15 @@
 import NavBar from "../components/NavBar";
-import { useUser } from "../context/UserContext"
+import useAuthStore from "../data/authStore";
 
 export default function LandingPage() {
 
-    const {username} = useUser();
+    const {user} = useAuthStore();
 
     return(<>
 <NavBar />
     <div>
-        <h1>Welcome {username}</h1>
+        <h1>W</h1>
+        <h1>Welcome {user}</h1>
     </div>
     </>)
 }
