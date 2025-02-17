@@ -2,9 +2,15 @@ import Dexie from "dexie";
 
 const db = new Dexie("ShopListDb");
 
-db.version(2).stores({
+db.version(3).stores({
   products: "id, name, unitprice, dateupdated",
-  shopLists: "++shopListId, shopListName, dateUpdated, isActive, shopListTotalValue",
+  shopLists: "shopListId, shopListName, dateUpdated, isActive, shopListTotalValue, products",
+});
+
+db.version(3).upgrade((tx) => {
+  return tx.shopLists.toCollection().modify((shopList) => {
+    shopList.products = shopList.products || [];
+  });
 });
 
 export async function getAllProducts() {
@@ -31,23 +37,40 @@ export async function deleteProduct(id) {
   await db.products.delete(id);
 }
 
-db.addShopList = async (shopList) => {
-  try {
-    return await db.shopLists.add(shopList);
-  } catch (error) {
-    console.error("Failed to add shop list:", error);
+export async function addShopList(shopLists) {
+  if (!Array.isArray(shopLists)) {
+    console.error("Expected an array, but got:", shopLists);
+    return; 
   }
+
+  console.log("Valid shopLists received:", shopLists);
+
+  const validShopList = shopLists
+  .filter(shopList => shopList.shopListId)
+  .map(shopList => ({
+    shopListId: shopList.shopListId,
+    shopListName: shopList.shopListName,
+    dateUpdated: shopList.dateUpdated,
+    isActive: shopList.isActive,
+    shopListTotalValue: shopList.shopListTotalValue,
+    products: shopList.products || [],
+  }));
+
+  console.log("Saving valid shopLists to Dexie: ", validShopList);
+
+  await db.shopLists.clear();
+  await db.shopLists.bulkPut(validShopList);
 };
 
-db.getAllShopLists = async () => {
+export async function getAllShopLists() {
   return await db.shopLists.toArray();
 };
 
-db.deleteShopList = async (shopListId) => {
+export async function deleteShopList (shopListId) {
   return await db.shopLists.delete(shopListId);
 };
 
-db.updateShopList = async (shopListId, updatedData) => {
+export async function updateShopList (shopListId, updatedData) {
   return await db.shopLists.update(shopListId, updatedData);
 };
 
