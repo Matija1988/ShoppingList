@@ -1,5 +1,5 @@
 import NavBar from "../components/NavBar";
-import useAuthStore from "../data/authStore";
+import useAuthStore from "../storage/authStore";
 
 export default function LandingPage() {
 

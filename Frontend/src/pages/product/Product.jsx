@@ -7,8 +7,8 @@ import useError from "../../hooks/useError";
 import DeleteModal from "../../components/DeleteModal";
 import ErrorModal from "../../components/ErrorModal";
 import GenericTable from "../../components/GenericTable";
-import { getAllProducts, saveProducts, deleteProduct } from "../../data/database"; 
-import useProductStore from "../../data/productStore";
+import { getAllProducts, saveProducts, deleteProduct } from "../../storage/database"; 
+import useProductStore from "../../storage/productStore";
 
 
 export default function Products() {

@@ -5,7 +5,7 @@ import CustomButton from "../components/CustomButton";
 import { Routes, useNavigate } from "react-router-dom";
 import { RouteNames } from "../constants/constants";
 import { useEffect, useState } from "react";
-import useAuthStore from "../data/authStore";
+import useAuthStore from "../storage/authStore";
 
 export default function LogIn() {
 

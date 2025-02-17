@@ -1,7 +1,7 @@
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { RouteNames } from "../constants/constants";
-import useAuthStore from "../data/authStore";
+import useAuthStore from "../storage/authStore";
 import { useEffect } from "react";
 
 export default function NavBar() {
@@ -32,6 +32,7 @@ export default function NavBar() {
           <Nav className="me-auto">
             <Nav.Link onClick={() => navigate(RouteNames.LANDINGPAGE)}>HOME</Nav.Link>
             <Nav.Link onClick={() => navigate(RouteNames.PRODUCTS)}>PRODUCTS</Nav.Link>
+            <Nav.Link onClick={() => navigate(RouteNames.SHOPLIST)}>LISTS</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <Button onClick={logout}>Logout</Button>
