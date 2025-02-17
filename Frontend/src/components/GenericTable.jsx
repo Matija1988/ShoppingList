@@ -33,6 +33,8 @@ export default function GenericTable({
   const [search, setSearch] = useState("");
   const [pageSize, setPageSize] = useState(10);
   const [decimalFilter, setDecimalFilter] = useState({});
+  const [sortColumn, setSortColumn] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
 
   const columns = Object.keys(dataArray[0]);
 
@@ -76,26 +78,31 @@ export default function GenericTable({
   const totalPages = Math.ceil(filteredData.length / pageSize);
 
   const paginatedData = useMemo(() => {
+    let sortedData = [...filteredData];
+
+    if (sortColumn) {
+      sortedData.sort((a, b) => {
+        const valueA = a[sortColumn];
+        const valueB = b[sortColumn];
+  
+        if (valueA == null || valueB == null) return 0;
+  
+        if (typeof valueA === "number" && typeof valueB === "number") {
+          return sortDirection === "asc" ? valueA - valueB : valueB - valueA;
+        } else if (moment(valueA, moment.ISO_8601, true).isValid() && moment(valueB, moment.ISO_8601, true).isValid()) {
+          return sortDirection === "asc"
+            ? moment(valueA).diff(moment(valueB))
+            : moment(valueB).diff(moment(valueA));
+        } else {
+          return sortDirection === "asc"
+            ? valueA.toString().localeCompare(valueB.toString())
+            : valueB.toString().localeCompare(valueA.toString());
+        }
+      });
+    }
     const startIndex = (page - 1) * pageSize;
-    return filteredData.slice(startIndex, startIndex + pageSize);
-  }, [filteredData, page, pageSize]);
-
-  function increasePage() {
-    if (page > totalPages) {
-      return;
-    }
-    if (page <= 0) {
-      setPage(1);
-    }
-    setPage(page + 1);
-  }
-
-  function decreasePage() {
-    if (page <= 1) {
-      return;
-    }
-    setPage(page - 1);
-  }
+    return sortedData.slice(startIndex, startIndex + pageSize);
+  }, [filteredData, page, pageSize, sortColumn, sortDirection]);
 
   function handleDecimalFilterChange(e, column, type) {
     const value = e.target.value ? parseFloat(e.target.value) : undefined;
@@ -120,9 +127,18 @@ export default function GenericTable({
     setPage(1);
   }
 
+  function handleSort(column) {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortColumn(column);
+      setSortDirection("asc");
+    }
+  }
+
   return (
     <>
-      <Container fluid>
+      <Container className="main-container">
         <Row className="align-items-center">
           <Col md={6} xs={12}>
             <Form>
@@ -187,7 +203,16 @@ export default function GenericTable({
             <tr>
               <th>No</th>
               {columns.map((column) => (
-                <th key={column}>{column}</th>
+                <th
+                  key={column}
+                  onClick={() => handleSort(column)} 
+                  style={{ cursor: "pointer" }} 
+                >
+                  {column}
+                  {sortColumn === column && (
+                    <span>{sortDirection === "asc" ? " ↑" : " ↓"}</span>
+                  )}
+                </th>
               ))}
               <th>Actions</th>
             </tr>

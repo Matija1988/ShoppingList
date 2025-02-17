@@ -8,13 +8,11 @@ import DeleteModal from "../../components/DeleteModal";
 import ErrorModal from "../../components/ErrorModal";
 import GenericTable from "../../components/GenericTable";
 import { getAllProducts, saveProducts, deleteProduct } from "../../data/database"; 
-import { ProductContext } from "../../data/ProductContext";
 import useProductStore from "../../data/productStore";
 
 
 export default function Products() {
 
-  //const {products} = useContext(ProductContext);
   const { showError, showErrorModal, errors, hideError } = useError();
   const [entityToDelete, setEntityToDelete] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
