@@ -8,7 +8,6 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import { UserProvider } from "./context/UserContext.jsx";
 import { ProductProvider } from "./data/ProductContext.jsx";
 
-
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
@@ -16,9 +15,7 @@ createRoot(document.getElementById("root")).render(
         <LoadingProvider>
           <UserProvider>
             <AuthProvider>
-              <ProductProvider>
-                <App />
-              </ProductProvider>
+              <App />
             </AuthProvider>
           </UserProvider>
         </LoadingProvider>

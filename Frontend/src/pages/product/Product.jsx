@@ -9,42 +9,31 @@ import ErrorModal from "../../components/ErrorModal";
 import GenericTable from "../../components/GenericTable";
 import { getAllProducts, saveProducts, deleteProduct } from "../../data/database"; 
 import { ProductContext } from "../../data/ProductContext";
+import useProductStore from "../../data/productStore";
 
 
 export default function Products() {
-  //const [products, setProducts] = useState([]);
 
-  const {products} = useContext(ProductContext);
-
-  const { hideLoading, showLoading } = useLoading();
+  //const {products} = useContext(ProductContext);
   const { showError, showErrorModal, errors, hideError } = useError();
   const [entityToDelete, setEntityToDelete] = useState(null);
-
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  // async function getProducts() {
-  //   showLoading();
+  const { products, setProducts, loadProductsFromDB } = useProductStore();
 
-  //   const localProducts = await getAllProducts();
-  //   if (localProducts.length > 0) {
-  //     console.log("Loaded products from local DB", localProducts);
-  //     setProducts(localProducts);
-  //     hideLoading();
-  //   }
+  useEffect(() => {
+    const fetchProducts = async () => {
+      await loadProductsFromDB();
+      if (products.length === 0) {
+        const response = await productService.readAll("products");
+        if (response.ok) {
+          setProducts(response.data);
+        }
+      }
+    };
 
-  //   const response = await productService.readAll("products");
-  //   if (!response.ok) {
-  //       hideLoading();
-  //     showError(response.data);
-  //   }
-  //   setProducts(response.data);
-  //   await saveProducts(response.data);
-  //   hideLoading();
-  // }
-
-  // useEffect(() => {
-  //   getProducts();
-  // }, []);
+    fetchProducts();
+  }, []);
 
   async function deleteProduct(product) {
 
