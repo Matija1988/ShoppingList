@@ -1,9 +1,19 @@
-import { Container, Navbar, Nav } from "react-bootstrap";
+import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { RouteNames } from "../constants/constants";
+import useAuthStore from "../data/authStore";
+import { useEffect } from "react";
 
 export default function NavBar() {
   const navigate = useNavigate();
+
+  const {logout, isAuthenticated} = useAuthStore();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate(RouteNames.HOME);
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <Navbar 
@@ -24,6 +34,7 @@ export default function NavBar() {
             <Nav.Link onClick={() => navigate(RouteNames.PRODUCTS)}>PRODUCTS</Nav.Link>
           </Nav>
         </Navbar.Collapse>
+        <Button onClick={logout}>Logout</Button>
       </Container>
     </Navbar>
   );
